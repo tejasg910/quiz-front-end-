@@ -1,22 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
-
-import './createquiz.css'
-    ;
 import { Toast } from 'bootstrap';
+import React, { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom';
+import AddQuestionsModel from './AddQuestionsModel';
 
+const EditQuiz = () => {
 
-const CreateQuiz = () => {
+    const [data, setData] = useState([])
     const [quizName, setQuizName] = useState("");
     const [quizDescription, setQuizDescription] = useState("");
     const [points, setPoints] = useState("");
     const [timeLimit, setTimeLimit] = useState("");
     const ref = useRef(null)
-
+    const location = useLocation();
     // handleSubmit function will be defined later
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("clicked ")
-        console.log(quizName)
+
         const toastEl = ref.current;
         // title, description, marks, limit
 
@@ -28,55 +27,37 @@ const CreateQuiz = () => {
             limit: timeLimit,
         };
 
-        try {
-            const response = await fetch('http://localhost:5000/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-
-
-            const responseData = await response.json();
-
-            if (toastEl) {
-                const toastInstance = new Toast(toastEl);
-                toastInstance.show();
-            }
-            console.log(responseData);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-
 
         // send form data to the database
     };
+
+    const getData = async () => {
+        const quizId = new URLSearchParams(location.search).get('quizId');
+        const d = await fetch(`http://localhost:5000/getquestions?quizId=${quizId}`)
+
+        const { data } = await d.json();
+        setData(data)
+
+        setQuizName(data.title);
+        setQuizDescription(data.description);
+        setPoints(data.marks);
+        setTimeLimit(data.limit);
+
+        console.log(data)
+    }
+    useEffect(() => {
+        getData()
+
+
+    }, []);
     return (
         <div>
-
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                <div ref={ref} id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-
-                        <strong class="me-auto">Quiz app
-                        </strong>
-                        <small>0 mins ago</small>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">
-                        Quiz added successfully!
-                    </div>
-                </div>
-            </div>
-
-            <h1>Create a New Quiz</h1>
             <form className="container" onSubmit={handleSubmit}>
+
+
+
+                <AddQuestionsModel />
+
                 <div class="mb-3">
                     <label for="quiztitle" class="form-label">Quiz Title</label>
                     <input value={quizName}
@@ -101,10 +82,13 @@ const CreateQuiz = () => {
                         onChange={(event) => setTimeLimit(event.target.value)} type="text" class="form-control" id="limit" />
 
                 </div>
-                <button className="btn btn-primary " type="submit">Create</button>
+                <button type="button" class="btn my-2 btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Add Question
+                </button>
+
             </form>
         </div>
     )
 }
 
-export default CreateQuiz
+export default EditQuiz

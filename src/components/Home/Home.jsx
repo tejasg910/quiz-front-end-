@@ -1,21 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Home = () => {
+    const [data, setData] = useState([])
+    const getData = async () => {
+        const d = await fetch("http://localhost:5000/getquizzes")
+
+        const { data } = await d.json();
+        setData(data)
+        console.log(data)
+    }
+    useEffect(() => {
+        getData()
+
+
+    }, []);
     return (
         <div>
-            <div class="card">
-                <div class="card-header">
-                    Featured
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <Link to={"/seequiz"} class="btn btn-success mx-2">See Quiz</Link>
-                    <Link to={`/edit`} class="btn btn-primary mx-2 ">Edit Quiz</Link>
+            {
 
-                </div>
-            </div>
+                data && data.map((item) => {
+                    return <div class="card container my-2">
+                        <div class="card-header">
+                            Quiz
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{item.title}</h5>
+                            <p class="card-text">{item.description}</p>
+                            <Link to={`/seequiz?quizId=${item._id}`} class="btn btn-success mx-2">See Quiz</Link>
+                            <Link to={`/edit?quizId=${item._id}`} class="btn btn-primary mx-2 ">Edit Quiz</Link>
+
+                        </div>
+                    </div>
+                })
+            }
+
         </div>
     )
 }
