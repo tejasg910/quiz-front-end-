@@ -8,70 +8,45 @@ const CreateQuiz = () => {
     const [quizDescription, setQuizDescription] = useState("");
     const [points, setPoints] = useState("");
     const [timeLimit, setTimeLimit] = useState("");
-    const [quizzes, setQuizzes] = useState([]);
-    useEffect(() => {
 
-    }, []);
+
     // handleSubmit function will be defined later
     const handleSubmit = (event) => {
         event.preventDefault();
-
-
+        console.log("clicked ")
+        console.log(quizName)
         // send form data to the database
     };
     return (
         <div>
             <h1>Create a New Quiz</h1>
-            <Form onSubmit={handleSubmit}>
-                <Row className="justify-content-center">
-                    <Col md={6}>
+            <form className="container" onSubmit={handleSubmit}>
+                <div class="mb-3">
+                    <label for="quiztitle" class="form-label">Quiz Title</label>
+                    <input value={quizName}
+                        onChange={(event) => setQuizName(event.target.value)} type="text" class="form-control" id="quiztitle" />
 
-                        <Form.Group className="my-4" controlId="formQuizName">
-                            <div className="form-label" >Quiz Name</div>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter quiz name"
-                                value={quizName}
-                                onChange={(event) => setQuizName(event.target.value)}
-                            />
-                        </Form.Group>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea value={quizDescription}
+                        onChange={(event) => setQuizDescription(event.target.value)} type="text" class="form-control" id="description" />
 
-                        <Form.Group className="my-4" controlId="formQuizDescription">
-                            <div className="form-label" >Quiz Description</div>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter quiz description"
-                                value={quizDescription}
-                                onChange={(event) => setQuizDescription(event.target.value)}
-                            />
-                        </Form.Group>
+                </div>
+                <div class="mb-3">
+                    <label for="marks" class="form-label">Marks for each question</label>
+                    <input value={points}
+                        onChange={(event) => setPoints(event.target.value)} type="text" class="form-control" id="marks" />
 
-                        <Form.Group className="my-4" controlId="formPoints">
-                            <div className="form-label">Points/Grading System</div>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter points/grading system"
-                                value={points}
-                                onChange={(event) => setPoints(event.target.value)}
-                            />
-                        </Form.Group>
+                </div>
+                <div class="mb-3">
+                    <label for="limit" class="form-label">Time limit</label>
+                    <input value={timeLimit}
+                        onChange={(event) => setTimeLimit(event.target.value)} type="text" class="form-control" id="limit" />
 
-                        <Form.Group className="my-4" controlId="formTimeLimit">
-                            <div className="form-label">Time Limit</div>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter time limit in minutes"
-                                value={timeLimit}
-                                onChange={(event) => setTimeLimit(event.target.value)}
-                            />
-                        </Form.Group>
-
-                        <Button variant="primary" type="submit">
-                            Create Quiz
-                        </Button>
-                    </Col>
-                </Row>
-            </Form>
+                </div>
+                <button className="btn btn-primary " type="submit">Create</button>
+            </form>
         </div>
     )
 }
