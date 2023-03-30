@@ -2,6 +2,7 @@ import { Toast } from 'bootstrap';
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import AddQuestionsModel from './AddQuestionsModel';
+import AllQuestions from './AllQuestions';
 
 const EditQuiz = () => {
 
@@ -11,6 +12,7 @@ const EditQuiz = () => {
     const [points, setPoints] = useState("");
     const [timeLimit, setTimeLimit] = useState("");
     const ref = useRef(null)
+    const [key, setKey] = useState("");
     const location = useLocation();
     // handleSubmit function will be defined later
     const handleSubmit = async (event) => {
@@ -45,18 +47,22 @@ const EditQuiz = () => {
 
         console.log(data)
     }
+
+
     useEffect(() => {
         getData()
 
 
     }, []);
+
+
     return (
         <div>
             <form className="container" onSubmit={handleSubmit}>
 
 
 
-                <AddQuestionsModel />
+                <AddQuestionsModel setKey={setKey} />
 
                 <div class="mb-3">
                     <label for="quiztitle" class="form-label">Quiz Title</label>
@@ -81,6 +87,11 @@ const EditQuiz = () => {
                     <input value={timeLimit}
                         onChange={(event) => setTimeLimit(event.target.value)} type="text" class="form-control" id="limit" />
 
+                </div>
+                <div>
+
+                    <label for="description" class="form-label">Questions</label>
+                    <AllQuestions setKey={setKey} />
                 </div>
                 <button type="button" class="btn my-2 btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Add Question

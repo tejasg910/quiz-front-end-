@@ -19,7 +19,7 @@ const AddQuestionsModel = () => {
             );
         }
     };
-    const saveChanges = async () => {
+    const saveChanges = async ({ setKey }) => {
         console.log(options, title, answer)
         const quizId = new URLSearchParams(location.search).get('quizId');
         const response = await fetch(`http://localhost:5000/addquestion?quizId=${quizId}`, {
@@ -31,7 +31,7 @@ const AddQuestionsModel = () => {
         });
         const data = await response.json();
         console.log(data)
-
+        setKey(Math.random())
     }
 
     return (
