@@ -8,7 +8,7 @@ const Home = () => {
 
         const { data } = await d.json();
         setData(data)
-        console.log(data)
+
     }
     useEffect(() => {
         getData()

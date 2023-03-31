@@ -12,7 +12,7 @@ const EditQuiz = () => {
     const [points, setPoints] = useState("");
     const [timeLimit, setTimeLimit] = useState("");
     const ref = useRef(null)
-    const [key, setKey] = useState("");
+    const [key, setKey] = useState(0);
     const location = useLocation();
     // handleSubmit function will be defined later
     const handleSubmit = async (event) => {
@@ -45,7 +45,6 @@ const EditQuiz = () => {
         setPoints(data.marks);
         setTimeLimit(data.limit);
 
-        console.log(data)
     }
 
 
@@ -54,7 +53,9 @@ const EditQuiz = () => {
 
 
     }, []);
+    useEffect(() => {
 
+    }, [data]);
 
     return (
         <div>
@@ -62,7 +63,7 @@ const EditQuiz = () => {
 
 
 
-                <AddQuestionsModel setKey={setKey} />
+                <AddQuestionsModel setKey={setKey} getData={getData} />
 
                 <div class="mb-3">
                     <label for="quiztitle" class="form-label">Quiz Title</label>
@@ -91,7 +92,7 @@ const EditQuiz = () => {
                 <div>
 
                     <label for="description" class="form-label">Questions</label>
-                    <AllQuestions setKey={setKey} />
+                    <AllQuestions key={key} setKey={setKey} />
                 </div>
                 <button type="button" class="btn my-2 btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Add Question

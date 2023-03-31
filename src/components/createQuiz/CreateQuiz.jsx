@@ -15,8 +15,7 @@ const CreateQuiz = () => {
     // handleSubmit function will be defined later
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("clicked ")
-        console.log(quizName)
+
         const toastEl = ref.current;
         // title, description, marks, limit
 
@@ -49,7 +48,7 @@ const CreateQuiz = () => {
                 const toastInstance = new Toast(toastEl);
                 toastInstance.show();
             }
-            console.log(responseData);
+
         } catch (error) {
             console.error('Error:', error);
         }

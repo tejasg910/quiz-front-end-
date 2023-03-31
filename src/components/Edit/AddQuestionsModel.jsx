@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 
-const AddQuestionsModel = () => {
+const AddQuestionsModel = ({ setKey, getData }) => {
     const [inputCount, setInputCount] = useState(1);
     const [options, setOptions] = useState([""]);
     const [title, setTitle] = useState("");
@@ -19,8 +19,8 @@ const AddQuestionsModel = () => {
             );
         }
     };
-    const saveChanges = async ({ setKey }) => {
-        console.log(options, title, answer)
+    const saveChanges = async () => {
+
         const quizId = new URLSearchParams(location.search).get('quizId');
         const response = await fetch(`http://localhost:5000/addquestion?quizId=${quizId}`, {
             method: 'POST',
@@ -30,8 +30,14 @@ const AddQuestionsModel = () => {
             body: JSON.stringify({ options, title, answer }),
         });
         const data = await response.json();
-        console.log(data)
+
         setKey(Math.random())
+
+
+        setTitle("")
+        setOptions([""])
+        setAnswer("")
+
     }
 
     return (
