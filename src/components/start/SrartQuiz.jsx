@@ -19,6 +19,7 @@ const StartQuiz = () => {
     const [timeLimit, setTimeLimit] = useState(15);
     const [times, setTime] = useState(0);
     const [timeUp, setTimeUP] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(timeLimit);
     const modalRef = useRef(null);
     const navigate = useNavigate();
     const getData = async () => {
@@ -35,7 +36,7 @@ const StartQuiz = () => {
     const handleNext = () => {
 
         if (next < data.length - 1) {
-
+            setTimeLeft(timeLimit)
             setNext(next + 1);
             setCurrentQuestion(currentQuestion + 1)
             setOptions(data[next + 1].options)
@@ -62,9 +63,10 @@ const StartQuiz = () => {
     }
 
     const handlePrev = () => {
+
         if (next > 0) {
 
-
+            setTimeLeft(timeLimit)
             setNext(next - 1);
             setCurrentQuestion(currentQuestion - 1)
             setOptions(data[next - 1].options)
@@ -155,7 +157,7 @@ const StartQuiz = () => {
                         <div>
                             Question:  {currentQuestion + 1}
                         </div>
-                        <CountDown handelSubmit={handelSubmit} data={data} duration={timeLimit} current={currentQuestion} submit={handleNext} />
+                        <CountDown handelSubmit={handelSubmit} data={data} timeLeft={timeLeft} setTimeLeft={setTimeLeft} duration={timeLimit} current={currentQuestion} submit={handleNext} />
 
                     </div>
                     <div class="card-body">

@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 
-const CountDown = ({ duration = 15, submit, current, data, handelSubmit }) => {
-    const [timeLeft, setTimeLeft] = useState(duration);
+const CountDown = ({ duration = 15, submit, current, data, handelSubmit, timeLeft, setTimeLeft }) => {
+
 
     const [intervalId, setIntervalId] = useState(null);
+
 
 
 
@@ -33,10 +34,12 @@ const CountDown = ({ duration = 15, submit, current, data, handelSubmit }) => {
 
     useEffect(() => {
         if (timeLeft <= 0) {
-            submit();
             setTimeLeft(duration);
+            console.log(timeLeft)
+            submit();
 
             if (data.length - 1 === current) {
+
                 handelSubmit()
             }
         }
